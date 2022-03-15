@@ -4,68 +4,54 @@ fetch("http://localhost:3000/api/products")
         return addProducts(json)
     })
 function addProducts(json) {
+    let products = ""
     console.log(json)
-    const id = json[0]._id
-    const imageUrl = json[0].imageUrl
-    const altTxt = json[0].altTxt
-    const name = json[0].name
-    const description = json[0].description
-    const image = makeImage(imageUrl, altTxt)
-    const anchor = makeAnchor(id) 
-    const article = makeArticle()
-    const H3 = makeH3(name)
-    const Paragraph = makeParagraph(description)
-    article.appendChild(image)
-    article.appendChild(H3)
-    article.appendChild(Paragraph)
-    appendChildren(anchor, article)
-}
-function makeAnchor(id) {
-    const anchor = document.createElement ("a")
-    anchor.href = "product.html?id=42" + id
-    return anchor
-}
-function appendChildren(anchor, article) {
-    const items = document.querySelector("#items")
-    if (items != null) {
-        items.appendChild(anchor)
-        anchor.appendChild(article)
-        }
-}
-function makeImage(imageUrl, altTxt) {
-    const image = document.createElement("img")
-    image.src = imageUrl
-    image.alt = altTxt
-    return image
-    
-}
-altTxt: "Photo d'un canapé bleu, deux places"
-colors: (3) ['Blue', 'White', 'Black']
-description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-imageUrl: "http://localhost:3000/images/kanap01.jpeg"
-name: ""
-price: 1849
-_id: "107fb5b75607497b96722bda5b504926"
+    json.map(item => {
+        console.log(item.name)
+        products += `<a href="product.html?id=${item._id}">
+        <article>
+          <img src="${item.imageUrl}" alt="${item.altTxt}">
+          <h3 class="productName">${item.name}</h3>
+          <p class="productDescription">${item.description}</p>
+        </article>
+      </a>`
 
-function makeArticle(params) {
-    const article = document.createElement("article")
-    const image = makeImage()
-    return article
+    });
+    console.log(products)
+    document.querySelector("#items").innerHTML = products
 }
 
-function makeH3(name) {
-    const H3 = document.createElement("H3")
-    H3.textContent = name
-    H3.classList.add("productName")
-    return H3
-    
-}
-function makeParagraph(description) {
-    const Paragraph = document.createElement("Paragraph")
-    Paragraph.textContent = description
-    Paragraph.classList.add("productDescription")
-    return Paragraph
-   
+function addCart(json) {
+  let products = ""
+  console.log(json)
+  json.map(item => {
+      console.log(item.name)
+      products += `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
+      <div class="cart__item__img">
+        <img src="images/product01.jpg" alt="Photographie d'un canapé">
+      </div>
+      <div class="cart__item__content">
+        <div class="cart__item__content__description">
+          <h2>Nom du produit</h2>
+          <p>Vert</p>
+          <p>42,00 €</p>
+        </div>
+        <div class="cart__item__content__settings">
+          <div class="cart__item__content__settings__quantity">
+            <p>Qté : </p>
+            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+          </div>
+          <div class="cart__item__content__settings__delete">
+            <p class="deleteItem">Supprimer</p>
+          </div>
+        </div>
+      </div>
+    </article>`
+
+  });
+  console.log(products)
+  document.querySelector("#items").innerHTML = products
 }
 
+         
 
