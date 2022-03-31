@@ -3,9 +3,9 @@ fetch("http://localhost:3000/api/products")
     .then((json) => {
         return addProducts(json)
     })
-function addProducts(json) {
+function addProducts(product) {
     let products = ""
-    json.map(item => {
+    product.map(item => {
         products += `<a href="product.html?id=${item._id}">
         <article>
           <img src="${item.imageUrl}" alt="${item.altTxt}">
