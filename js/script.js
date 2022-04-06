@@ -4,6 +4,7 @@ fetch("http://localhost:3000/api/products")
         return addProducts(json)
     })
 function addProducts(product) {
+  console.log('pro', product)
     let products = ""
     product.map(item => {
         products += `<a href="product.html?id=${item._id}">
@@ -14,6 +15,7 @@ function addProducts(product) {
         </article>
       </a>`
     })
+    console.log(products)
     document.querySelector("#items").innerHTML = products
 }
 

@@ -20,5 +20,31 @@ function addContent(product) {
         colors += `<option value="${color}">${color}</option>`
     });
     document.querySelector("#colors").innerHTML += colors
+}
 
+let element = document.getElementById("addToCart");
+element.onclick = function(e) {
+    let cardLocalStorage = localStorage.getItem("card")
+    let quantity = document.getElementById("quantity").value
+    quantity = parseInt(quantity, 10)
+    const colors = document.getElementById("colors").selectedIndex
+    if (cardLocalStorage) {
+        let newCard = JSON.parse(cardLocalStorage)
+        newCard.find(item => {
+            if (item.id === id && item.color === colors) {
+                item.quantity += quantity
+            }
+        })
+        
+        console.log(newCard)
+    } else {
+        let card = []
+        let items = {}
+        items.quantity = quantity
+        items.color = colors
+        items.id = id
+        card.push(items)
+        let cardJson = JSON.stringify(card)
+        localStorage.setItem("card", cardJson)    
+    }
 }
